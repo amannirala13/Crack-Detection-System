@@ -23,29 +23,59 @@ class App(tk.Frame):
         self.depthSensitivity = 0.0
         self.SMS_ONGOING = False
         self.smsEndTime = datetime.now()
-        self.serialPort = serial.Serial(port="COM10", baudrate=9600)
+
+
+        tk.Label(self.root, text="COM Port: ").grid(row=0, pady = 10)
+        tk.Label(self.root, text="Baud Rate: ").grid(row=0, column=2, pady = 10)
+        tk.Label(self.root, text="Depth Sensitivity(cm): ").grid(row=1, pady = 10)
+        tk.Label(self.root, text="Max Distance Allowed(cm): ").grid(row=2, pady = 10)
+        tk.Label(self.root, text="Calibration Time(s): ").grid(row=4, pady = 10)
+        self.comPortTextField = tk.Entry(self.root, bg='#CFD8DC')
+        self.baudrateTextField = tk.Entry(self.root, bg='#CFD8DC')
+        self.depthTextField = tk.Entry(self.root, bg='#CFD8DC')
+        self.maxDistanceField = tk.Entry(self.root, bg='#CFD8DC')
+        self.calibrationTimeTextField = tk.Entry(self.root, bg='#CFD8DC')
+        self.calibrateBtn = tk.Button(self.root, text="Calibrate",width = 25, bg='#FFEE58', height=2)
+        self.startBtn = tk.Button(self.root, text="Start detection", width = 25, bg='#66BB6A', height=2)
+        self.showGraphBtn = tk.Button(self.root, text="Show Graph", width = 25, bg='#29B6F6', height=2)
+        self.saveComConfigBtn = tk.Button(self.root, text="Save COM Config", width = 25,bg='#9575CD' ,height = 2)
         
-        tk.Label(self.root, text="Depth Sensitivity(cm): ").grid(row=0)
-        tk.Label(self.root, text="Max Distance Allowed(cm): ").grid(row=1)
-        tk.Label(self.root, text="Calibration Time(s): ").grid(row=3)
-        self.depthTextField = tk.Entry(self.root)
-        self.maxDistanceField = tk.Entry(self.root)
-        self.calibrationTimeTextField = tk.Entry(self.root)
-        self.calibrateBtn = tk.Button(self.root, text="Calibrate",width = 25)
-        self.startBtn = tk.Button(self.root, text="Start detection", width = 25)
-        self.showGraphBtn = tk.Button(self.root, text="Show Graph", width = 25)
+        self.comPortTextField.grid(row=0,column=1, pady = 10)
+        self.baudrateTextField.grid(row=0, column=3, pady = 10, padx=10)
+        self.depthTextField.grid(row=1, column=1, pady = 10)
+        self.maxDistanceField.grid(row=2, column=1, pady = 10)
+        self.calibrationTimeTextField.grid(row=4, column=1, pady = 10)
+        self.calibrateBtn.grid(row=5)
+        self.startBtn.grid(row=5, column=1)
+        self.showGraphBtn.grid(row = 5, column=2, columnspan=2,ipadx=10)
+        self.saveComConfigBtn.grid(row=3, column=2, columnspan=2, rowspan=2,ipadx=10)
         
-        self.depthTextField.grid(row=0, column=1)
-        self.maxDistanceField.grid(row=1, column=1)
-        self.calibrationTimeTextField.grid(row=3, column=1)
-        self.calibrateBtn.grid(row=4)
-        self.startBtn.grid(row=4, column=1)
-        self.showGraphBtn.grid(row = 4, column=2)
+        try:
+            comConfigFile = open('com.config', 'r')
+            config = comConfigFile.read().split(':')
+            if(len(config) == 2):
+                    self.com = config[0]
+                    self.baudrate = int(config[1])
+                    self.comPortTextField.insert(0,self.com)
+                    self.baudrateTextField.insert(0,self.baudrate)
+                    self.serialPort = serial.Serial(port = self.com, baudrate=self.baudrate)
+            else:
+                self.com = None
+                self.baudrate = 9600
+                self.baudrateTextField.insert(0,self.baudrate)
+                self.serialPort = serial.Serial()
+            comConfigFile.close()
+        except IOError:
+            self.com = None
+            self.baudrate = 9600
+            self.baudrateTextField.insert(0,self.baudrate)
+            self.serialPort = serial.Serial()
         
         self.calibrateBtn.config(command=lambda:threading.Thread(target=self.startCalibration, daemon=True).start())
         self.startBtn.config(command=lambda:threading.Thread(target=self.startDetection, daemon=True).start())
         #self.startBtn.config(command= self.startDetection)
-        self.showGraphBtn.config(command=lambda:threading.Thread(target= lambda: os.system('python graph.py '+str(self.mainCalibration.surface_threshold), ),daemon=True).start())
+        self.showGraphBtn.config(command=lambda:threading.Thread(target= lambda: os.system('python graph.py log.data '+str(self.mainCalibration.surface_threshold), ),daemon=True).start())
+        self.saveComConfigBtn.config(command=lambda:threading.Thread(target=self.saveCOMConfig).start())
     
     class Calibrate():
         def __init__(self):
@@ -63,7 +93,12 @@ class App(tk.Frame):
 
     def startSerialPortCom(self):
         print("STATUS: Starting communication with serial port...")
-        self.serialPort.open()
+        self.baudrate = int(self.baudrateTextField.get())
+        if self.serialPort.port == None:
+            self.com = self.comPortTextField.get()
+            self.serialPort = serial.Serial(port=self.com, baudrate=self.baudrate)
+        else:
+            self.serialPort.open()
             
     def stopSerialPortCom(self):
         print("STATUS: Stopping communication with serial port...")
@@ -72,7 +107,20 @@ class App(tk.Frame):
         except Exception:
             print("ERROR: Unable to close serial port")
             
+    def saveCOMConfig(self):
+        try:
+            comConfigFile = open('com.config','w')
+            com = self.comPortTextField.get()
+            baudRate = self.baudrateTextField.get()
             
+            if com == '' or baudRate == '':
+                print("ERROR: Please enter valid com and baudrate values")
+                comConfigFile.close()
+                return
+            comConfigFile.write(com + ':' + baudRate)
+            comConfigFile.close()
+        except:
+            print("ERROR: Unable to open com.config file.")
 
     def startCalibration(self):
         try:
@@ -143,6 +191,7 @@ class App(tk.Frame):
         self.depthSensitivity = float(self.depthTextField.get())
         if self.IS_DETECTION_ON:
             self.IS_DETECTION_ON = False
+            self.startBtn.config(bg='#66BB6A', text='Start Detection')
         else:
             if not self.mainCalibration.is_calibrated:
                 if self.serialPort.isOpen():
@@ -158,6 +207,7 @@ class App(tk.Frame):
                 print("ERROR: Unable to open serial port")
                 return
             self.IS_DETECTION_ON = True
+            self.startBtn.config(bg='#e57373', text='Stop Detection')
             try:
                 dataLogFile = open('log.data', 'w')
                 dataLogFile.write('0,')

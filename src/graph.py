@@ -14,11 +14,12 @@ fig = plt.figure()
 fig.canvas.set_window_title('Crack Detection Live')
 ax = fig.add_subplot(1,1,1)
 
-surface_threshold = float(sys.argv[1])
+path = sys.argv[1]
+surface_threshold = float(sys.argv[2])
 
 def animate(i):
     try:
-        graph_data = open('log.data', 'r').read()
+        graph_data = open(path, 'r').read()
     except:
         print("Log file missing")
         SystemExit()
