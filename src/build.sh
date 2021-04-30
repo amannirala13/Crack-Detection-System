@@ -8,8 +8,10 @@ moveplugin(){
 	echo "Moving Plugin"
 	cp graph.py ./dist/app/graph.py
 	cp sms.py ./dist/app/sms.py
+	cp ic.ico ./dist/app/ic.ico
 	#cp graph.py ./build/app/graph.py
 	#cp sms.py ./build/app/sms.py
+	#cp ic.ico ./build/app/ic.ico
 }
 
 

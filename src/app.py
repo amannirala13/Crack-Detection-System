@@ -251,6 +251,7 @@ class App(tk.Frame):
         
 if __name__ == '__main__': 
     window = tk.Tk()
+    window.iconbitmap('ic.ico')
     window.title("Crack detection - v1.0")
     App(root = window)
     window.mainloop()
