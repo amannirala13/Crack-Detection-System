@@ -29,7 +29,7 @@ There are multiple ways to run the software interface.
 
   > **Note:** Always execute the application as an administrator.
 
-### Build from Script:
+### Build from Source:
 
 - The other way is to use build executables from the source. To build executables from the source you need go to the **`src`** folder and use the **`build.sh`** to build the executables from the source code. Here are few options and examples on how you can use **`build.sh`**.
 
