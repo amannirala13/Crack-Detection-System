@@ -4,7 +4,15 @@ This project aims at designing railway track crack detection using an Arduino an
 
 ## Arduino Module:
 
-<img src="https://github.com/amannirala13/Crack-Detection-System/blob/main/img/circuit.png" alt="Arduino Module Circuit Diagram" height="400" width="500">
+<div align="center">
+    <img src="https://github.com/amannirala13/Crack-Detection-System/blob/main/img/circuit.png" alt="Arduino Module Circuit Diagram" height="450" width="600">
+</div>
+
+## Technology Stack (v1.0):
+
+<div align="center">
+    <img src="https://github.com/amannirala13/Crack-Detection-System/blob/main/img/block.png" alt="Technology Stack Diagram" height="450" width="600">
+</div>
 
 ## Download release:
 
