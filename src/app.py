@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 12 01:39:31 2021
+@author: amannirala13
+"""
 # Library import block
 import serial
 import numpy as np
@@ -252,6 +257,6 @@ class App(tk.Frame):
 if __name__ == '__main__': 
     window = tk.Tk()
     window.iconbitmap('ic.ico')
-    window.title("Crack detection - v1.0")
+    window.title("Crack Detection(1.0)- amannirala13")
     App(root = window)
     window.mainloop()

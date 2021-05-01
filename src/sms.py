@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 12 01:39:31 2021
+@author: amannirala13
+"""
 from twilio.rest import Client
 import requests
 import geocoder
@@ -16,5 +21,6 @@ messageBody = 'Hi! This is your Crack Detection System. We found a crack of '+sy
 
 message = client.messages.create(body=messageBody, from_='twilio_number', to='target_number')
 
+print("Location:", location)
 print("Body:  ", messageBody)
-print(message.sid)
+print("Message SID", message.sid)
