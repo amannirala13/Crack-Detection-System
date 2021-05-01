@@ -92,3 +92,6 @@ With all these options we have provided few action buttons that are self explana
 
 - The **`Show Graph`** button is used to open the live graph of the data collected in realtime.
 - The **`Save COM Config`** button is used to save the present COM port and Baud-rate so that you don't need to enter if every time you start the application.
+
+## Reference:
+For more detailed insight, please refer [**here**](https://github.com/amannirala13/Crack-Detection-System/blob/main/docs/Crack%20Detection%20System-Mini%20Project%20Paper.pdf).
