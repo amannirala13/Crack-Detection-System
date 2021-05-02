@@ -256,7 +256,10 @@ class App(tk.Frame):
         
 if __name__ == '__main__': 
     window = tk.Tk()
-    window.iconbitmap('ic.ico')
+    try:
+        window.iconbitmap('ic.  ico')
+    except:
+        print("WARNING: ic.ico file missing or not supported")
     window.title("Crack Detection(1.0)- amannirala13")
     App(root = window)
     window.mainloop()
