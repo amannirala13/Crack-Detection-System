@@ -61,8 +61,8 @@ class App(tk.Frame):
 			if(len(config) == 2):
 					self.com = config[0]
 					self.baudrate = int(config[1])
-					self.serialPort = serial.Serial(port = self.com, baudrate=self.baudrate)
 					self.comPortTextField.insert(0,self.com)
+					self.serialPort = serial.Serial(port = self.com, baudrate=self.baudrate)
 					self.baudrateTextField.insert(0,self.baudrate)
 			else:
 				self.com = None
@@ -110,8 +110,8 @@ class App(tk.Frame):
 		print("STATUS: Stopping communication with serial port...")
 		try:
 			self.serialPort.close()
-		except Exception:
-			print("ERROR: Unable to close serial port")
+		except Exception as e:
+			print("ERROR: Unable to close serial port | ",e)
 			
 	def saveCOMConfig(self):
 		try:
@@ -125,15 +125,15 @@ class App(tk.Frame):
 				return
 			comConfigFile.write(com + ':' + baudRate)
 			comConfigFile.close()
-		except:
-			print("ERROR: Unable to open com.config file.")
+		except Exception as e:
+			print("ERROR: Unable to open com.config file | ",e)
 
 	def startCalibration(self):
 		try:
 			if not self.serialPort.isOpen():
 				self.startSerialPortCom()
-		except:
-			print("ERROR: Unable to open serial port")
+		except Exception as e:
+			print("ERROR: Unable to open serial port | ", e)
 			return
 		#TODO: Put this whole block in try and catch and make changes in status text
 		self.calibrateBtn.config(text= "Calibrating...")
@@ -142,8 +142,8 @@ class App(tk.Frame):
 		try:
 			self.mainCalibration.max_distance = float(self.maxDistanceField.get())
 			calibrationTime = float(self.calibrationTimeTextField.get())
-		except:
-			print("Please enter valid number arguments")
+		except Exception as e:
+			print("Please enter valid number arguments | ", e)
 			
 		endTime = datetime.now() + timedelta(seconds=calibrationTime)
 		distanceList = []
@@ -156,8 +156,8 @@ class App(tk.Frame):
 					serialString = self.serialPort.readline().strip()
 					distance = float(serialString.decode('Ascii'))
 					distanceList.append(distance)
-			except:
-				print("WARNING: Skipped corrupted bytes!")
+			except Exception as e:
+				print("WARNING: Skipped corrupted bytes! | ",e)
 						
 		data = np.array(distanceList)
 		
@@ -209,8 +209,8 @@ class App(tk.Frame):
 			try:
 				if not self.serialPort.isOpen():
 					self.startSerialPortCom()
-			except:
-				print("ERROR: Unable to open serial port")
+			except Exception as e:
+				print("ERROR: Unable to open serial port | ",e)
 				return
 			self.IS_DETECTION_ON = True
 			self.startBtn.config(bg='#e57373', text='Stop Detection')
@@ -218,15 +218,15 @@ class App(tk.Frame):
 				dataLogFile = open('log.data', 'w')
 				dataLogFile.write('0,')
 				dataLogFile.close()
-			except:
-				print("ERROR: Unable to create data log file. Graph features will not work properly")
+			except Exception as e:
+				print("ERROR: Unable to create data log file. Graph features will not work properly | ",e)
 			while(self.IS_DETECTION_ON):
 				try:
 					if(self.serialPort.in_waiting > 0):
 						try:
 							dataLogFile = open('log.data', 'a')
-						except:
-							print("ERROR: Unable to create data log file. Graph features will not work")
+						except Exception as e:
+							print("ERROR: Unable to create data log file. Graph features will not work | ",e)
 						serialString = self.serialPort.readline()
 						distance = float(serialString.decode('Ascii').strip())
 						if distance<self.mainCalibration.max_distance:
@@ -261,6 +261,6 @@ if __name__ == '__main__':
 		window.iconbitmap('ic.ico')
 	except:
 		print("WARNING: ic.ico file missing or not supported")
-	window.title("Crack Detection(1.0)- amannirala13")
+	window.title("Crack Detection(1.1)- amannirala13")
 	App(root = window)
 	window.mainloop()
