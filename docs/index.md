@@ -29,7 +29,7 @@ There are multiple ways to run the software interface.
 
   > **Note:** Always execute the application as an administrator.
 
-### Build from Script:
+### Build from Source:
 
 - The other way is to use build executables from the source. To build executables from the source you need go to the **`src`** folder and use the **`build.sh`** to build the executables from the source code. Here are few options and examples on how you can use **`build.sh`**.
 
@@ -92,3 +92,6 @@ With all these options we have provided few action buttons that are self explana
 
 - The **`Show Graph`** button is used to open the live graph of the data collected in realtime.
 - The **`Save COM Config`** button is used to save the present COM port and Baud-rate so that you don't need to enter if every time you start the application.
+
+## Reference:
+For more detailed insight, please refer [**here**](https://github.com/amannirala13/Crack-Detection-System/blob/main/docs/Crack%20Detection%20System-Mini%20Project%20Paper.pdf).
