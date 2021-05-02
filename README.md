@@ -41,6 +41,7 @@ There are multiple ways to run the software interface.
     options:--------------------------------------------------------------------------------------
         -e     : Setup env with just pip      [ build.sh -e ]
         -e -v  : Setup env with specific version of pip       [build.sh -e -v <version_number>]
+        -e -r  : Setup env using requirements file	[build.sh -e -r <requirements_file path>]
         -b     : Build executable       [ build.sh -b <python file path> ]
         -f     : Full install with plugin(needs config)     [ build.sh -f -b <python file path> ]
         -m     : Move plugin scripts to build       [ build.sh -m ]
@@ -50,6 +51,7 @@ There are multiple ways to run the software interface.
     usage:----------------------------------------------------------------------------------------
     [ build.sh -e ]
     [build.sh -e -v 3]
+    [build.sh -e -r <requirements_file path>]
     [ build.sh -b <python file path> ]
     [ build.sh -f -b <python file path> ]
     [ build.sh -h ]

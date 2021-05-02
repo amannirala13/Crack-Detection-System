@@ -11,7 +11,7 @@ from matplotlib import style
 
 style.use('dark_background')
 fig = plt.figure()
-fig.canvas.set_window_title('Crack Detection Live')
+fig.canvas.manager.set_window_title('Crack Detection Live')
 ax = fig.add_subplot(1,1,1)
 
 path = sys.argv[1]
