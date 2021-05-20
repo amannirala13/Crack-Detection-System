@@ -1,7 +1,5 @@
 # ![ic.ico](https://raw.githubusercontent.com/amannirala13/Crack-Detection-System/main/img/ic.ico) Crack-Detection-System
 
-This project aims at designing railway track crack detection using an Arduino and Raspberry Pi and Arduino as development boards, which is further connected with a sensor, either an Ultrasonic or IR sensor (in our project it is an ultrasonic sensor module HC-SR04). The purpose is that it detects the distance between objects by using the physical phenomenon of echo, high frequency sound waves are emitted from the sensor which on striking an object bounces back to the receiver in the sensor. In the case of IR sensors, an infra-red blaster is used to emit infrared waves which travel and strike the surface, bounce back to an infra-red sensor. The time taken for the ultrasonic wave or the infra-red wave is used to calculate the distance between the object’s surface which gives us information about any abnormality on the surface of the object.
-
 ## Arduino Module:
 
 <div align="center">
